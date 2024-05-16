@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import { GUESS_CHARACTERS_ALLOWED } from '../../constants';
 
-function GuessInput({ addNewGuess }) {
+function GuessInput({ addNewGuess, isGuessingAllowed }) {
   const [guessValue, setGuessValue] = useState('');
 
   const handleChange = (e) => setGuessValue(e.target.value.toUpperCase());
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!isGuessingAllowed) return;
 
     setGuessValue('');
 
