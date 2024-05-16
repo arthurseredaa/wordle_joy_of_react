@@ -1,11 +1,12 @@
-import React from 'react';
-import { range } from '../../utils';
+import React from "react";
+import { range } from "../../utils";
 import {
   NUM_OF_GUESSES_ALLOWED,
   GUESS_CHARACTERS_ALLOWED,
-} from '../../constants';
+} from "../../constants";
+import { checkGuess } from "../../game-helpers";
 
-function GuessResults({ guesses }) {
+function GuessResults({ guesses, answer }) {
   return (
     <div className="guess-results">
       {range(NUM_OF_GUESSES_ALLOWED).map((_, wordIndex) => {
@@ -13,13 +14,25 @@ function GuessResults({ guesses }) {
 
         const wordId = word?.id || crypto.randomUUID();
 
+        const checkResult = word && checkGuess(word.text, answer); // letter, status
+
         return (
           <p className="guess" key={wordId}>
-            {range(GUESS_CHARACTERS_ALLOWED).map((_, charIndex) => (
-              <span className="cell" key={`${charIndex}-${wordId}`}>
-                {word?.text?.[charIndex]}
-              </span>
-            ))}
+            {range(GUESS_CHARACTERS_ALLOWED).map((_, charIndex) => {
+              const character = word?.text?.[charIndex];
+              const status = checkResult?.find(
+                (item) => item.letter === character
+              )?.status;
+
+              return (
+                <span
+                  className={`cell ${status}`}
+                  key={`${charIndex}-${wordId}`}
+                >
+                  {character}
+                </span>
+              );
+            })}
           </p>
         );
       })}
