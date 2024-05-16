@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function GuessInput() {
+function GuessInput({ addNewGuess }) {
   const [guessValue, setGuessValue] = useState('');
 
   const handleChange = (e) => setGuessValue(e.target.value.toUpperCase());
@@ -10,7 +10,7 @@ function GuessInput() {
 
     setGuessValue('');
 
-    console.log({ guess: guessValue });
+    addNewGuess(guessValue);
   };
 
   return (
