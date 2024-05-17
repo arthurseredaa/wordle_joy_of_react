@@ -6,14 +6,14 @@
 export function checkGuess(guess, answer) {
   // This constant is a placeholder that indicates we've successfully
   // dealt with this character (it's correct, or misplaced).
-  const SOLVED_CHAR = '✓';
+  const SOLVED_CHAR = "✓";
 
   if (!guess) {
     return null;
   }
 
-  const guessChars = guess.toUpperCase().split('');
-  const answerChars = answer.split('');
+  const guessChars = guess.toUpperCase().split("");
+  const answerChars = answer.split("");
 
   const result = [];
 
@@ -22,7 +22,7 @@ export function checkGuess(guess, answer) {
     if (guessChars[i] === answerChars[i]) {
       result[i] = {
         letter: guessChars[i],
-        status: 'correct',
+        status: "correct",
       };
       answerChars[i] = SOLVED_CHAR;
       guessChars[i] = SOLVED_CHAR;
@@ -36,12 +36,12 @@ export function checkGuess(guess, answer) {
       continue;
     }
 
-    let status = 'incorrect';
+    let status = "incorrect";
     const misplacedIndex = answerChars.findIndex(
       (char) => char === guessChars[i]
     );
     if (misplacedIndex >= 0) {
-      status = 'misplaced';
+      status = "misplaced";
       answerChars[misplacedIndex] = SOLVED_CHAR;
     }
 
@@ -53,3 +53,31 @@ export function checkGuess(guess, answer) {
 
   return result;
 }
+
+const statusPriority = {
+  correct: 3,
+  misplaced: 2,
+  incorrect: 1,
+};
+
+export const getUniqueCharsData = (guesses, answer) => {
+  const data = guesses.map((guess) => checkGuess(guess.text, answer)).flat();
+
+  const uniqueChars = data.reduce((acc, curr) => {
+    const existingIndex = acc.findIndex((item) => item.letter === curr.letter);
+
+    if (existingIndex !== -1) {
+      if (
+        statusPriority[curr.status] > statusPriority[acc[existingIndex].status]
+      ) {
+        acc[existingIndex] = curr;
+      }
+    } else {
+      acc.push(curr);
+    }
+
+    return acc;
+  }, []);
+
+  return uniqueChars;
+};

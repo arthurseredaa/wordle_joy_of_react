@@ -16,13 +16,12 @@ function GuessResults({ guesses, answer }) {
 
         const checkResult = word && checkGuess(word.text, answer); // letter, status
 
+        console.log(checkResult);
         return (
           <p className="guess" key={wordId}>
             {range(GUESS_CHARACTERS_ALLOWED).map((_, charIndex) => {
               const character = word?.text?.[charIndex];
-              const status = checkResult?.find(
-                (item) => item.letter === character
-              )?.status;
+              const status = checkResult?.[charIndex]?.status;
 
               return (
                 <span

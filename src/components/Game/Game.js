@@ -7,6 +7,7 @@ import GuessResults from "../GuessResults/GuessResults";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import HappyBanner from "../HappyBanner";
 import SadBanner from "../SadBanner";
+import Keyboard from "../Keyboard";
 
 // Pick a random word on every pageload.
 // To make debugging easier, we'll log the solution in the console.
@@ -55,6 +56,7 @@ function Game() {
         }
         gameStatus={gameStatus}
       />
+      <Keyboard guesses={guesses} answer={answer} />
       {isUserWon && (
         <HappyBanner
           guessesQuantity={guesses.length}
