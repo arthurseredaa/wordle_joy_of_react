@@ -20,7 +20,7 @@ function GuessInput({ addNewGuess, isGuessingAllowed }) {
         type="text"
         value={guessValue}
         onChange={handleChange}
-        pattern="\w{5,5}"
+        pattern="[a-zA-Z]{5}"
         disabled={!isGuessingAllowed}
       />
     </form>
