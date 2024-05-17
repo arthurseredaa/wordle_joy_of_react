@@ -17,7 +17,6 @@ function GuessResults({ guesses, answer }) {
 
         const checkResult = word && checkGuess(word.text, answer); // letter, status
 
-        console.log(checkResult);
         return (
           <p className="guess" key={wordId}>
             {range(GUESS_CHARACTERS_ALLOWED).map((_, charIndex) => {

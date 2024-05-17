@@ -15,6 +15,11 @@ html {
   --color-gray-500: hsl(0deg 0% 50%);
   --color-gray-700: hsl(0deg 0% 75%);
   --color-gray-900: hsl(0deg 0% 90%);
+  --toggle-width: 50px;
+  --toggle-ball-width: 28px;
+  --toggle-ball-left: calc(
+          var(--toggle-width) - var(--toggle-ball-width) - 1px
+  );
 }
 
 /*
@@ -48,9 +53,12 @@ button {
 
 header {
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   height: var(--header-height);
   border-bottom: 1px solid var(--color-gray-700);
   color: var(--color-gray-300);
+  padding: var(--game-spacing);
 }
 
 header .side {
@@ -60,7 +68,6 @@ header .side {
 }
 
 h1 {
-  flex: 1;
   font-size: 2rem;
   line-height: var(--header-height);
   text-align: center;
@@ -278,4 +285,40 @@ h1 {
   to {
     transform: translateY(0%);
   }
+}
+
+.toggle {
+  width: var(--toggle-width);
+  height: 30px;
+  border-radius: 20px;
+  background-color: #ccc;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.2s;
+}
+
+.toggle .ball {
+  width: var(--toggle-ball-width);
+  height: 28px;
+  border-radius: 20px;
+  background-color: white;
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  transition: left 0.3s;
+  transition-timing-function: ease-in-out;
+}
+
+.toggle.active {
+  background-color: green;
+}
+
+.toggle.active .ball {
+  left: var(--toggle-ball-left);
+}
+
+.toggle_wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }

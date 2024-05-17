@@ -1,24 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { sample } from "../../utils";
-import { WORDS } from "../../data";
 import GuessInput from "../GuessInput/GuessInput";
 import GuessResults from "../GuessResults/GuessResults";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import HappyBanner from "../HappyBanner";
 import SadBanner from "../SadBanner";
 import Keyboard from "../Keyboard";
+import { useLanguageContext } from "../LanguageContext";
 
-// Pick a random word on every pageload.
-// To make debugging easier, we'll log the solution in the console.
-
-console.log(WORDS.length);
-function Game() {
-  const [answer, setAnswer] = useState(() => sample(WORDS));
+function Game({ words, keyboard }) {
+  const { isUAVersion } = useLanguageContext();
+  const [answer, setAnswer] = useState();
   const [guesses, setGuesses] = useState([]);
   const [gameStatus, setGameStatus] = useState("in_progress");
   const isUserWon = gameStatus === "won";
   const isUserLost = gameStatus === "lost";
+
+  const restartGame = () => {
+    setGuesses([]);
+    setGameStatus("in_progress");
+    setAnswer(sample(words));
+  };
+
+  useEffect(() => {
+    restartGame();
+  }, [isUAVersion]);
 
   useEffect(() => {
     console.info({ answer });
@@ -40,12 +47,6 @@ function Game() {
     ]);
   };
 
-  const restartGame = () => {
-    setGuesses([]);
-    setGameStatus("in_progress");
-    setAnswer(sample(WORDS));
-  };
-
   return (
     <>
       <GuessResults guesses={guesses} answer={answer} />
@@ -56,8 +57,9 @@ function Game() {
           gameStatus === "in_progress"
         }
         gameStatus={gameStatus}
+        isUAVersion={isUAVersion}
       />
-      <Keyboard guesses={guesses} answer={answer} />
+      <Keyboard guesses={guesses} answer={answer} keyboard={keyboard} />
       {isUserWon && (
         <HappyBanner
           guessesQuantity={guesses.length}

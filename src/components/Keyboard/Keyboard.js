@@ -1,30 +1,36 @@
 import React from "react";
 
-import { KEYBOARD } from "../../data";
 import { getUniqueCharsData } from "../../game-helpers";
 import { clsx } from "../../utils";
+import { useLanguageContext } from "../LanguageContext";
 
-function Keyboard({ guesses, answer }) {
+function Keyboard({ guesses, answer, keyboard }) {
   const charsData = getUniqueCharsData(guesses, answer);
+  const { isUAVersion } = useLanguageContext();
 
   return (
-    <div className="keyboard">
-      {KEYBOARD.map((row, index) => (
-        <div className="key-row" key={index}>
-          {row.split("").map((letter) => {
-            const status = charsData.find(
-              (item) => item.letter === letter
-            )?.status;
+    <>
+      <p style={{ textAlign: "center" }}>
+        {isUAVersion ? "Використані букви:" : "Used letters:"}{" "}
+      </p>
+      <div className="keyboard">
+        {keyboard.map((row, index) => (
+          <div className="key-row" key={index}>
+            {row.split("").map((letter) => {
+              const status = charsData.find(
+                (item) => item.letter === letter
+              )?.status;
 
-            return (
-              <div key={letter} className={clsx("key", status)}>
-                {letter}
-              </div>
-            );
-          })}
-        </div>
-      ))}
-    </div>
+              return (
+                <div key={letter} className={clsx("key", status)}>
+                  {letter}
+                </div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
 

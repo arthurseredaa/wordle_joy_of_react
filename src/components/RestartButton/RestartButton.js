@@ -1,9 +1,12 @@
 import React from "react";
+import { useLanguageContext } from "../LanguageContext";
 
 function RestartButton({ restartGame }) {
+  const { isUAVersion } = useLanguageContext();
+
   return (
     <button onClick={restartGame} type="button" className="button">
-      Restart
+      {isUAVersion ? "Ще раз" : "Restart"}
     </button>
   );
 }
