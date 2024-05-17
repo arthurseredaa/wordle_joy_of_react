@@ -1,5 +1,6 @@
 import React from "react";
-import { range } from "../../utils";
+
+import { clsx, range } from "../../utils";
 import {
   NUM_OF_GUESSES_ALLOWED,
   GUESS_CHARACTERS_ALLOWED,
@@ -25,7 +26,7 @@ function GuessResults({ guesses, answer }) {
 
               return (
                 <span
-                  className={`cell ${status}`}
+                  className={clsx("cell", status)}
                   key={`${charIndex}-${wordId}`}
                 >
                   {character}

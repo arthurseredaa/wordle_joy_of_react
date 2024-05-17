@@ -12,6 +12,7 @@ import Keyboard from "../Keyboard";
 // Pick a random word on every pageload.
 // To make debugging easier, we'll log the solution in the console.
 
+console.log(WORDS.length);
 function Game() {
   const [answer, setAnswer] = useState(() => sample(WORDS));
   const [guesses, setGuesses] = useState([]);

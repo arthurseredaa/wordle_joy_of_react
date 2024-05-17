@@ -1,6 +1,8 @@
 import React from "react";
+
 import { KEYBOARD } from "../../data";
 import { getUniqueCharsData } from "../../game-helpers";
+import { clsx } from "../../utils";
 
 function Keyboard({ guesses, answer }) {
   const charsData = getUniqueCharsData(guesses, answer);
@@ -15,7 +17,7 @@ function Keyboard({ guesses, answer }) {
             )?.status;
 
             return (
-              <div key={letter} className={`key ${status}`}>
+              <div key={letter} className={clsx("key", status)}>
                 {letter}
               </div>
             );
