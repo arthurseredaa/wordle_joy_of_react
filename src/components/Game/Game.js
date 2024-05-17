@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
@@ -9,22 +9,24 @@ import HappyBanner from "../HappyBanner";
 import SadBanner from "../SadBanner";
 
 // Pick a random word on every pageload.
-const answer = sample(WORDS);
 // To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
 
 function Game() {
+  const [answer, setAnswer] = useState(() => sample(WORDS));
   const [guesses, setGuesses] = useState([]);
   const [gameStatus, setGameStatus] = useState("in_progress");
   const isUserWon = gameStatus === "won";
   const isUserLost = gameStatus === "lost";
+
+  useEffect(() => {
+    console.info({ answer });
+  }, [answer]);
 
   const addNewGuess = (text) => {
     if (text === answer) {
       setGameStatus("won");
     } else if (guesses.length + 1 === NUM_OF_GUESSES_ALLOWED) {
       setGameStatus("lost");
-      return;
     }
 
     setGuesses([
@@ -34,6 +36,12 @@ function Game() {
         id: crypto.randomUUID(),
       },
     ]);
+  };
+
+  const restartGame = () => {
+    setGuesses([]);
+    setGameStatus("in_progress");
+    setAnswer(sample(WORDS));
   };
 
   return (
@@ -47,8 +55,13 @@ function Game() {
         }
         gameStatus={gameStatus}
       />
-      {isUserWon && <HappyBanner guessesQuantity={guesses.length} />}
-      {isUserLost && <SadBanner answer={answer} />}
+      {isUserWon && (
+        <HappyBanner
+          guessesQuantity={guesses.length}
+          restartGame={restartGame}
+        />
+      )}
+      {isUserLost && <SadBanner answer={answer} restartGame={restartGame} />}
     </>
   );
 }
