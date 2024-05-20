@@ -96,4 +96,4 @@ export const WORDS_UA = [
 ];
 
 export const KEYBOARD = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
-export const KEYBOARD_UA = ["ЙЦУКЕНГШЩЗХ", "ФІВАПРОЛ", "ЯЧСМИТЬ"];
+export const KEYBOARD_UA = ["ЙЦУКЕНГШЩЗХЇ", "ФІВАПРОЛДЖЄ", "ЯЧСМИТЬБЮ"];
